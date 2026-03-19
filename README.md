@@ -7,7 +7,7 @@ The system supports different types of products (such as collectible cards, acce
 
 ---
 
-## 🎯 Objectives
+## Objectives
 
 * Manage collectible products with different characteristics
 * Track inventory movements (entries, exits, adjustments)
@@ -46,11 +46,6 @@ The database design follows normalization principles and is structured into:
 ### Product Specialization
 
 * `PRODUCTO_CARTA` (for collectible cards with attributes like attack, defense, level, etc.)
-
----
-## ERD (Entity-Relationship Diagram)
-
-📄 [View ERD V1](siac/database/der/siac_v1.pdf)
 
 ---
 
