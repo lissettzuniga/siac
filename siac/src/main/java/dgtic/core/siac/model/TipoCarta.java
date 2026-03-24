@@ -5,19 +5,19 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
-@Table(name = "categoria")
+@Table(name = "tipo_carta")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Categoria {
+public class TipoCarta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "El nombre de la categoría es obligatorio")
+    @NotBlank(message = "El nombre del tipo de carta es obligatorio")
     @Column(nullable = false, unique = true, length = 100)
     private String nombre;
 
