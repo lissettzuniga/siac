@@ -19,7 +19,6 @@ import lombok.Setter;
 public class ProductoCarta {
 
     @Id
-    @Column(name = "id_producto")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
