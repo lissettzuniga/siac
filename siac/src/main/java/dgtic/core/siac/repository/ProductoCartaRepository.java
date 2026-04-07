@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProductoCartaRepository extends JpaRepository<ProductoCarta,Long> {
 
     List<ProductoCarta> findByActivoTrue();
+    List<ProductoCarta> findByActivoFalse();
 }

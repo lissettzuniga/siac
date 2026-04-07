@@ -8,4 +8,5 @@ import java.util.List;
 public interface RolPermisoRepository extends JpaRepository<RolPermiso,Long> {
 
     List<RolPermiso> findByActivoTrue();
+    List<RolPermiso> findByActivoFalse();
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface PermisoRepository extends JpaRepository<Permiso,Long> {
 
     List<Permiso> findByActivoTrue();
+    List<Permiso> findByActivoFalse();
 }

@@ -8,4 +8,5 @@ import java.util.List;
 public interface TipoCartaRepository extends JpaRepository<TipoCarta,Long> {
 
     List<TipoCarta> findByActivoTrue();
+    List<TipoCarta> findByActivoFalse();
 }

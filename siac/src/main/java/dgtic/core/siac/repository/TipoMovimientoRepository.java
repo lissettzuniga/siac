@@ -8,4 +8,5 @@ import java.util.List;
 public interface TipoMovimientoRepository extends JpaRepository<TipoMovimiento,Long> {
 
     List<TipoMovimiento> findByActivoTrue();
+    List<TipoMovimiento> findByActivoFalse();
 }
