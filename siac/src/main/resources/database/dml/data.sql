@@ -47,12 +47,7 @@ INSERT INTO categoria (
 -- =========================================================
 -- 5) TIPO_PRODUCTO
 -- =========================================================
-INSERT INTO tipo_producto (
-    nombre_tipo, descripcion, activo
-) VALUES
-('Carta', 'Producto individual tipo carta', 1),
-('Figura', 'Producto tipo figura coleccionable', 1),
-('Accesorio', 'Producto complementario o accesorio', 1);
+
 
 -- =========================================================
 -- 6) TIPO_MOVIMIENTO
@@ -117,14 +112,14 @@ INSERT INTO rol_permiso (
 -- =========================================================
 INSERT INTO producto (
     nombre, descripcion, precio, cantidad_actual,
-    id_usuario, id_tipo_producto, id_categoria,
+    id_usuario, id_categoria,
     fecha_creacion, activo
 ) VALUES
-('Pikachu V', 'Carta coleccionable Pikachu V', 150.00, 10, 1, 1, 1, '2026-03-05 12:00:00', 1),
-('Charizard GX', 'Carta coleccionable Charizard GX', 450.00, 5, 2, 1, 1, '2026-03-05 12:20:00', 1),
-('Figura Goku', 'Figura de colección de Goku', 799.00, 3, 2, 2, 2, '2026-03-06 13:00:00', 1),
-('Protector Acrilico', 'Protector transparente para carta', 45.00, 25, 1, 3, 3, '2026-03-06 13:30:00', 1),
-('Carta Mago Oscuro', 'Carta Yu-Gi-Oh! Mago Oscuro', 220.00, 7, 3, 1, 1, '2026-03-07 14:00:00', 1);
+('Pikachu V', 'Carta coleccionable Pikachu V', 150.00, 10, 1, 1, '2026-03-05 12:00:00', 1),
+('Charizard GX', 'Carta coleccionable Charizard GX', 450.00, 5, 2,1, '2026-03-05 12:20:00', 1),
+('Figura Goku', 'Figura de colección de Goku', 799.00, 3, 2, 2, '2026-03-06 13:00:00', 1),
+('Protector Acrilico', 'Protector transparente para carta', 45.00, 25, 3, 3, '2026-03-06 13:30:00', 1),
+('Carta Mago Oscuro', 'Carta Yu-Gi-Oh! Mago Oscuro', 220.00, 7, 3, 1, '2026-03-07 14:00:00', 1);
 
 -- =========================================================
 -- 11) MOVIMIENTO_INVENTARIO

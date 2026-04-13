@@ -1,7 +1,6 @@
 package dgtic.core.siac.service.rolPermiso;
 
 import dgtic.core.siac.model.RolPermiso;
-import dgtic.core.siac.model.Usuario;
 import dgtic.core.siac.repository.RolPermisoRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RolPermisoInterfaceImpl implements RolPermisoInterface{
+public class RolPermisoServiceImpl implements RolPermisoService {
 
     private final RolPermisoRepository rolPermisoRepository;
 
-    public RolPermisoInterfaceImpl(RolPermisoRepository rolPermisoRepository) {
+    public RolPermisoServiceImpl(RolPermisoRepository rolPermisoRepository) {
         this.rolPermisoRepository = rolPermisoRepository;
     }
 

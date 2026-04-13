@@ -5,7 +5,7 @@ import dgtic.core.siac.model.TipoCarta;
 import java.util.List;
 import java.util.Optional;
 
-public interface TipoCartaInterface {
+public interface TipoCartaService {
     List<TipoCarta> findAllActivos();
     List<TipoCarta> findAllInactivos();
     Optional<TipoCarta> findById(Long id);

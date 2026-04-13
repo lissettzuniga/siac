@@ -5,7 +5,7 @@ import dgtic.core.siac.model.MovimientoInventario;
 import java.util.List;
 import java.util.Optional;
 
-public interface MovimientoInventarioInterface {
+public interface MovimientoInventarioService {
     List<MovimientoInventario> findAllActivos();
     List<MovimientoInventario> findAllInactivos();
     Optional<MovimientoInventario> findById(Long id);

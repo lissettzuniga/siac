@@ -1,5 +1,7 @@
 package dgtic.core.siac.model;
 
+import dgtic.core.siac.enums.AccionEnum;
+import dgtic.core.siac.enums.EntidadEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -25,17 +27,20 @@ public class BitacoraMovimiento {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
 
-    @NotBlank(message = "La entidad es obligatoria")
-    @Column(nullable = false, length = 100)
-    private String entidad;
+    // ENUM entidad
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private EntidadEnum entidad;
 
     @NotNull(message = "El id de la entidad es obligatorio")
     @Column(name = "id_entidad", nullable = false)
     private Long idEntidad;
 
-    @NotBlank(message = "La acción es obligatoria")
-    @Column(nullable = false, length = 50)
-    private String accion;
+    // ENUM acción
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private AccionEnum accion;
+
 
     @Column(length = 255)
     private String descripcion;

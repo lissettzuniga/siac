@@ -1,99 +1,67 @@
 package dgtic.core.siac.controller;
 
-import dgtic.core.siac.dto.ProductoFormDTO;
-import dgtic.core.siac.repository.CategoriaRepository;
-import dgtic.core.siac.repository.TipoProductoRepository;
+import dgtic.core.siac.dto.producto.ProductoRequestDTO;
+import dgtic.core.siac.dto.producto.ProductoResponseDTO;
 import dgtic.core.siac.service.producto.ProductoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/productos")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/productos")
 public class ProductoController {
 
-    @Autowired
-    ProductoService productoService;
+    private final ProductoService productoService;
 
-    @Autowired
-    CategoriaRepository categoriaRepository;
-
-    @Autowired
-    TipoProductoRepository tipoProductoRepository;
+    public ProductoController(ProductoService productoService) {
+        this.productoService = productoService;
+    }
 
     @GetMapping
-    public String findAll(Model model) {
-        model.addAttribute("productos", productoService.findAllActivos());
-        model.addAttribute("productosInactivos", productoService.findAllInactivos());
-        return "paginas/productos/listaProductos";
+    public ResponseEntity<List<ProductoResponseDTO>> findAllActivos() {
+        return ResponseEntity.ok(productoService.findAllActivos());
     }
 
-    @GetMapping("/nuevo")
-    public String mostrarFormularioNuevo(Model model) {
-        model.addAttribute("productoForm", new ProductoFormDTO());
-        model.addAttribute("modoEdicion", false);
-        cargarCatalogos(model);
-        return "paginas/productos/formularioProducto";
+    @GetMapping("/inactivos")
+    public ResponseEntity<List<ProductoResponseDTO>> findAllInactivos() {
+        return ResponseEntity.ok(productoService.findAllInactivos());
     }
 
-    @PostMapping("/guardar")
-    public String save(@Valid @ModelAttribute("productoForm") ProductoFormDTO productoForm,
-                       BindingResult bindingResult,
-                       Model model) {
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("modoEdicion", false);
-            cargarCatalogos(model);
-            return "paginas/productos/formularioProducto";
-        }
-
-        productoService.save(productoForm);
-        return "redirect:/productos";
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductoResponseDTO> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(productoService.findById(id));
     }
 
-    @GetMapping("/editar/{id}")
-    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
-        model.addAttribute("productoForm", productoService.findFormularioById(id));
-        model.addAttribute("modoEdicion", true);
-        cargarCatalogos(model);
-        return "paginas/productos/formularioProducto";
+    @PostMapping
+    public ResponseEntity<ProductoResponseDTO> create(@Valid @RequestBody ProductoRequestDTO request) {
+        ProductoResponseDTO productoCreado = productoService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productoCreado);
     }
 
-    @PostMapping("/actualizar/{id}")
-    public String update(@PathVariable Long id,
-                         @Valid @ModelAttribute("productoForm") ProductoFormDTO productoForm,
-                         BindingResult bindingResult,
-                         Model model) {
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("modoEdicion", true);
-            cargarCatalogos(model);
-            return "paginas/productos/formularioProducto";
-        }
-
-        productoService.update(id, productoForm);
-        return "redirect:/productos";
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoResponseDTO> update(@PathVariable Long id,
+                                                      @Valid @RequestBody ProductoRequestDTO request) {
+        return ResponseEntity.ok(productoService.update(id, request));
     }
 
-    @PostMapping("/activar/{id}")
-    public String activar(@PathVariable Long id) {
+    @PatchMapping("/{id}/activar")
+    public ResponseEntity<String> activar(@PathVariable Long id) {
         productoService.activar(id);
-        return "redirect:/productos";
+        return ResponseEntity.ok("Producto activado correctamente.");
     }
 
-    @PostMapping("/desactivar/{id}")
-    public String desactivar(@PathVariable Long id) {
+    @PatchMapping("/{id}/desactivar")
+    public ResponseEntity<String> desactivar(@PathVariable Long id) {
         productoService.desactivar(id);
-        return "redirect:/productos";
+        return ResponseEntity.ok("Producto desactivado correctamente.");
     }
 
-    private void cargarCatalogos(Model model) {
-        model.addAttribute("categorias", categoriaRepository.findByActivoTrue());
-        model.addAttribute("tiposProducto", tipoProductoRepository.findByActivoTrue());
-    }
-
-
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> deleteLogico(@PathVariable Long id) {
+//        productoService.desactivar(id);
+//        return ResponseEntity.ok("Producto desactivado correctamente.");
+//    }
 }

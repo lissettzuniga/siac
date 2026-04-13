@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PermisoInterfaceImpl implements PermisoInterface{
+public class PermisoServiceImpl implements PermisoService {
 
     private final PermisoRepository permisoRepository;
 
-    public PermisoInterfaceImpl(PermisoRepository permisoRepository) {
+    public PermisoServiceImpl(PermisoRepository permisoRepository) {
         this.permisoRepository = permisoRepository;
     }
 

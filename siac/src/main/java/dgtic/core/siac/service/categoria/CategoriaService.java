@@ -1,16 +1,17 @@
 package dgtic.core.siac.service.categoria;
 
-import dgtic.core.siac.model.Categoria;
+import dgtic.core.siac.dto.categoria.CategoriaRequestDTO;
+import dgtic.core.siac.dto.categoria.CategoriaResponseDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoriaService {
 
-    List<Categoria> findAllActivos();
-    List<Categoria> findAllInactivos();
-    Optional<Categoria> findById(Long id);
-    Categoria save(Categoria categoria);
-    void activar(Long id);
+    List<CategoriaResponseDTO> findAllActivos();
+    List<CategoriaResponseDTO> findAllInactivos();
+    CategoriaResponseDTO findById(Long id);
+    CategoriaResponseDTO create(CategoriaRequestDTO request);
+    CategoriaResponseDTO update(Long id, CategoriaRequestDTO request);
     void desactivar(Long id);
+    void activar(Long id);
 }

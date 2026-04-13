@@ -10,8 +10,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
 
     List<Usuario> findByActivoTrue();
     List<Usuario> findByActivoFalse();
-    Optional<Usuario> findByCorreo(String correo);
+
     Optional<Usuario> findByCorreoAndActivoTrue(String correo);
+
     boolean existsByCorreo(String correo);
+    boolean existsByCorreoAndIdNot(String correo, Long id);
 
 }

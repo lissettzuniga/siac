@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MovimientoInventarioInterfaceImpl implements MovimientoInventarioInterface{
+public class MovimientoInventarioServiceImpl implements MovimientoInventarioService {
 
     private final MovimientoInventarioRepository movimientoInventarioRepository;
 
-    public MovimientoInventarioInterfaceImpl(MovimientoInventarioRepository movimientoInventarioRepository) {
+    public MovimientoInventarioServiceImpl(MovimientoInventarioRepository movimientoInventarioRepository) {
         this.movimientoInventarioRepository = movimientoInventarioRepository;
     }
 

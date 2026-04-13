@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TipoCartaInterfaceImpl implements TipoCartaInterface{
+public class TipoCartaServiceImpl implements TipoCartaService {
 
     private final TipoCartaRepository tipoCartaRepository;
 
-    public TipoCartaInterfaceImpl(TipoCartaRepository tipoCartaRepository) {
+    public TipoCartaServiceImpl(TipoCartaRepository tipoCartaRepository) {
         this.tipoCartaRepository = tipoCartaRepository;
     }
 

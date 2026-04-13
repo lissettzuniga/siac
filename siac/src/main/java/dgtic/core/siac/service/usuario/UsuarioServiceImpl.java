@@ -1,96 +1,95 @@
 package dgtic.core.siac.service.usuario;
 
-import dgtic.core.siac.dto.UsuarioFormDTO;
-import dgtic.core.siac.mapping.UsuarioMapper;
-import dgtic.core.siac.model.Rol;
+import dgtic.core.siac.dto.usuario.UsuarioRequestDTO;
+import dgtic.core.siac.dto.usuario.UsuarioResponseDTO;
+import dgtic.core.siac.exception.ResourceNotFoundException;
+import dgtic.core.siac.mapper.UsuarioMapper;
 import dgtic.core.siac.model.Usuario;
 import dgtic.core.siac.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@Transactional
-public class UsuarioServiceImpl implements UsuarioService{
+public class UsuarioServiceImpl implements UsuarioService {
 
+    private final UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private UsuarioMapper usuarioMapper;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Usuario> findAllActivos() {
-        return usuarioRepository.findByActivoTrue();
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Usuario> findAllInactivos() {
-        return usuarioRepository.findByActivoFalse();
+    public List<UsuarioResponseDTO> findAllActivos() {
+        return usuarioRepository.findByActivoTrue()
+                .stream()
+                .map(UsuarioMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public UsuarioFormDTO findById(Long id) {
+    public List<UsuarioResponseDTO> findAllInactivos() {
+        return usuarioRepository.findByActivoFalse()
+                .stream()
+                .map(UsuarioMapper::toResponseDTO)
+                .toList();
+    }
+
+    @Override
+    public UsuarioResponseDTO findById(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
-        return usuarioMapper.toDTO(usuario);
+        return UsuarioMapper.toResponseDTO(usuario);
     }
 
     @Override
-    public Usuario save(UsuarioFormDTO usuarioFormDTO) {
-        if (usuarioRepository.existsByCorreo(usuarioFormDTO.getCorreo())) {
-            throw new RuntimeException("Ya existe un usuario con ese correo");
+    public UsuarioResponseDTO create(UsuarioRequestDTO request) {
+        if (usuarioRepository.existsByCorreo(request.getCorreo())) {
+            throw new IllegalArgumentException("Ya existe un usuario con ese correo");
         }
-        Usuario usuario = usuarioMapper.toEntity(usuarioFormDTO);
-        usuario.setActivo(true);
-        usuario.setFechaDesactivacion(null);
 
-        return usuarioRepository.save(usuario);
+        Usuario usuario = UsuarioMapper.toEntity(request);
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
+        return UsuarioMapper.toResponseDTO(usuarioGuardado);
     }
 
     @Override
-    public Usuario update(Long id, UsuarioFormDTO usuarioFormDTO) {
-        Usuario usuarioExistente = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public UsuarioResponseDTO update(Long id, UsuarioRequestDTO request) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
-        if (!usuarioExistente.getCorreo().equals(usuarioFormDTO.getCorreo())
-                && usuarioRepository.existsByCorreo(usuarioFormDTO.getCorreo())) {
-            throw new RuntimeException("Ya existe un usuario con ese correo");
+        if (usuarioRepository.existsByCorreoAndIdNot(request.getCorreo(), id)) {
+            throw new IllegalArgumentException("Ya existe otro usuario con ese correo");
         }
 
-        usuarioExistente.setNombre(usuarioFormDTO.getNombre());
-        usuarioExistente.setApPaterno(usuarioFormDTO.getApPaterno());
-        usuarioExistente.setApMaterno(usuarioFormDTO.getApMaterno());
-        usuarioExistente.setCorreo(usuarioFormDTO.getCorreo());
+        UsuarioMapper.updateEntityFromDTO(request, usuario);
 
-        return usuarioRepository.save(usuarioExistente);
+        Usuario usuarioActualizado = usuarioRepository.save(usuario);
+        return UsuarioMapper.toResponseDTO(usuarioActualizado);
     }
 
     @Override
     public void activar(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
         usuario.setActivo(true);
+        usuario.setFechaDesactivacion(null);
+
         usuarioRepository.save(usuario);
     }
 
     @Override
     public void desactivar(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
         usuario.setActivo(false);
         usuario.setFechaDesactivacion(LocalDateTime.now());
+
         usuarioRepository.save(usuario);
     }
 }

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TipoMovimientoInterfaceImpl implements TipoMovimientoInterface{
+public class TipoMovimientoServiceImpl implements TipoMovimientoService {
 
     private final TipoMovimientoRepository tipoMovimientoRepository;
 
-    public TipoMovimientoInterfaceImpl(TipoMovimientoRepository tipoMovimientoRepository) {
+    public TipoMovimientoServiceImpl(TipoMovimientoRepository tipoMovimientoRepository) {
         this.tipoMovimientoRepository = tipoMovimientoRepository;
     }
 

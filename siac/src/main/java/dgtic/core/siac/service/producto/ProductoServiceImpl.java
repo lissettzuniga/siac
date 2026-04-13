@@ -1,128 +1,130 @@
 package dgtic.core.siac.service.producto;
 
-import dgtic.core.siac.dto.ProductoFormDTO;
+import dgtic.core.siac.dto.producto.ProductoRequestDTO;
+import dgtic.core.siac.dto.producto.ProductoResponseDTO;
+import dgtic.core.siac.exception.ResourceNotFoundException;
+import dgtic.core.siac.mapper.ProductoMapper;
 import dgtic.core.siac.model.Categoria;
 import dgtic.core.siac.model.Producto;
-import dgtic.core.siac.model.TipoProducto;
 import dgtic.core.siac.model.Usuario;
 import dgtic.core.siac.repository.CategoriaRepository;
 import dgtic.core.siac.repository.ProductoRepository;
-import dgtic.core.siac.repository.TipoProductoRepository;
 import dgtic.core.siac.repository.UsuarioRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@Transactional
-public class ProductoServiceImpl implements ProductoService{
+public class ProductoServiceImpl implements ProductoService {
 
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
-    private final TipoProductoRepository tipoProductoRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public ProductoServiceImpl(ProductoRepository productoRepository, CategoriaRepository categoriaRepository, TipoProductoRepository tipoProductoRepository, UsuarioRepository usuarioRepository) {
+    public ProductoServiceImpl(ProductoRepository productoRepository,
+                               CategoriaRepository categoriaRepository,
+                               UsuarioRepository usuarioRepository,
+                               TipoProductoRepository tipoProductoRepository) {
         this.productoRepository = productoRepository;
         this.categoriaRepository = categoriaRepository;
-        this.tipoProductoRepository = tipoProductoRepository;
         this.usuarioRepository = usuarioRepository;
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Producto> findAllActivos() {
-        return productoRepository.findByActivoTrue();
+    public List<ProductoResponseDTO> findAllActivos() {
+        return productoRepository.findByActivoTrue()
+                .stream()
+                .map(ProductoMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Producto> findAllInactivos() {
-        return productoRepository.findByActivoFalse();
+    public List<ProductoResponseDTO> findAllInactivos() {
+        return productoRepository.findByActivoFalse()
+                .stream()
+                .map(ProductoMapper::toResponseDTO)
+                .toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Producto findById(Long id) {
-        return productoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
+    public ProductoResponseDTO findById(Long id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con id: " + id));
+
+        return ProductoMapper.toResponseDTO(producto);
     }
 
     @Override
-    public ProductoFormDTO findFormularioById(Long id) {
-        Producto producto = findById(id);
+    public ProductoResponseDTO create(ProductoRequestDTO request) {
+        if (productoRepository.existsByNombre(request.getNombre())) {
+            throw new IllegalArgumentException("Ya existe un producto con ese nombre");
+        }
 
-        ProductoFormDTO dto = new ProductoFormDTO();
-        dto.setId(producto.getId());
-        dto.setNombre(producto.getNombre());
-        dto.setDescripcion(producto.getDescripcion());
-        dto.setPrecio(producto.getPrecio());
-        dto.setCantidadActual(producto.getCantidadActual());
-        dto.setCategoriaId(producto.getCategoria().getId());
-        dto.setTipoProductoId(producto.getTipoProducto().getId());
-        dto.setActivo(producto.getActivo());
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Usuario no encontrado con id: " + request.getUsuarioId()));
 
-        return dto;
-    }
 
-    @Override
-    public void save(ProductoFormDTO dto) {
-        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada"));
-
-        TipoProducto tipoProducto = tipoProductoRepository.findById(dto.getTipoProductoId())
-                .orElseThrow(() -> new EntityNotFoundException("Tipo de producto no encontrado"));
-
-        Usuario usuario = usuarioRepository.findById(1L)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Categoría no encontrada con id: " + request.getCategoriaId()));
 
         Producto producto = new Producto();
-        producto.setNombre(dto.getNombre().trim());
-        producto.setDescripcion(dto.getDescripcion() != null ? dto.getDescripcion().trim() : null);
-        producto.setPrecio(dto.getPrecio());
-        producto.setCantidadActual(dto.getCantidadActual());
-        producto.setCategoria(categoria);
-        producto.setTipoProducto(tipoProducto);
+        producto.setNombre(request.getNombre());
+        producto.setDescripcion(request.getDescripcion());
+        producto.setPrecio(request.getPrecio());
+        producto.setCantidadActual(request.getCantidadActual());
         producto.setUsuario(usuario);
+        producto.setCategoria(categoria);
         producto.setActivo(true);
 
-        productoRepository.save(producto);
+        Producto productoGuardado = productoRepository.save(producto);
+        return ProductoMapper.toResponseDTO(productoGuardado);
     }
 
     @Override
-    public void update(Long id, ProductoFormDTO dto) {
-        Producto producto = findById(id);
+    public ProductoResponseDTO update(Long id, ProductoRequestDTO request) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con id: " + id));
 
-        Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new EntityNotFoundException("Categoría no encontrada"));
+        if (productoRepository.existsByNombreAndIdNot(request.getNombre(), id)) {
+            throw new IllegalArgumentException("Ya existe otro producto con ese nombre");
+        }
 
-        TipoProducto tipoProducto = tipoProductoRepository.findById(dto.getTipoProductoId())
-                .orElseThrow(() -> new EntityNotFoundException("Tipo de producto no encontrado"));
+        Usuario usuario = usuarioRepository.findById(request.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Usuario no encontrado con id: " + request.getUsuarioId()));
 
-        producto.setNombre(dto.getNombre().trim());
-        producto.setDescripcion(dto.getDescripcion() != null ? dto.getDescripcion().trim() : null);
-        producto.setPrecio(dto.getPrecio());
-        producto.setCantidadActual(dto.getCantidadActual());
+
+        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Categoría no encontrada con id: " + request.getCategoriaId()));
+
+        producto.setNombre(request.getNombre());
+        producto.setDescripcion(request.getDescripcion());
+        producto.setPrecio(request.getPrecio());
+        producto.setCantidadActual(request.getCantidadActual());
+        producto.setUsuario(usuario);
         producto.setCategoria(categoria);
-        producto.setTipoProducto(tipoProducto);
 
-        productoRepository.save(producto);
+        Producto productoActualizado = productoRepository.save(producto);
+        return ProductoMapper.toResponseDTO(productoActualizado);
     }
-
 
     @Override
     public void activar(Long id) {
-        Producto producto = findById(id);
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con id: " + id));
+
         producto.setActivo(true);
         productoRepository.save(producto);
     }
 
     @Override
     public void desactivar(Long id) {
-        Producto producto = findById(id);
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con id: " + id));
+
         producto.setActivo(false);
         productoRepository.save(producto);
     }

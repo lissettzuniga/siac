@@ -50,15 +50,6 @@ CREATE TABLE categoria (
   CONSTRAINT chk_categoria_activo CHECK (activo IN (0,1))
 );
 
-CREATE TABLE tipo_producto (
-  id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  nombre_tipo  VARCHAR(50) NOT NULL,
-  descripcion  VARCHAR(100) NULL,
-  activo       TINYINT(1) NOT NULL DEFAULT 1,
-
-  CONSTRAINT uq_tipo_producto_nombre UNIQUE (nombre_tipo),
-  CONSTRAINT chk_tipo_producto_activo CHECK (activo IN (0,1))
-);
 
 CREATE TABLE tipo_movimiento (
   id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -87,16 +78,12 @@ CREATE TABLE producto (
   precio            DECIMAL(10,2) NOT NULL DEFAULT 0.00,
   cantidad_actual   INT UNSIGNED NOT NULL DEFAULT 0,
   id_usuario        INT UNSIGNED NOT NULL,
-  id_tipo_producto  INT UNSIGNED NOT NULL,
   id_categoria      INT UNSIGNED NULL,
   fecha_creacion    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   activo            TINYINT(1) NOT NULL DEFAULT 1,
 
   CONSTRAINT fk_producto_usuario
     FOREIGN KEY (id_usuario) REFERENCES usuario(id),
-
-  CONSTRAINT fk_producto_tipo_producto
-    FOREIGN KEY (id_tipo_producto) REFERENCES tipo_producto(id),
 
   CONSTRAINT fk_producto_categoria
     FOREIGN KEY (id_categoria) REFERENCES categoria(id),
@@ -183,7 +170,6 @@ CREATE TABLE bitacora_movimiento (
       'ROL',
       'PERMISO',
       'CATEGORIA',
-      'TIPO_PRODUCTO',
       'TIPO_MOVIMIENTO',
       'TIPO_CARTA',
       'PRODUCTO',

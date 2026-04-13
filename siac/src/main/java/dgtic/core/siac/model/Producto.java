@@ -19,6 +19,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Producto {
 
     @Id
@@ -46,10 +47,6 @@ public class Producto {
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_tipo_producto",nullable = false)
-    private TipoProducto tipoProducto;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria",nullable = false)
     private Categoria categoria;
 
@@ -61,5 +58,6 @@ public class Producto {
     private List<ImagenProducto> imagenes;
 
     @Column(nullable = false)
-    private Boolean activo;
+    @Builder.Default
+    private Boolean activo = true;
 }

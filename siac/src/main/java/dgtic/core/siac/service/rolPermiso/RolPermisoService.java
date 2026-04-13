@@ -5,7 +5,7 @@ import dgtic.core.siac.model.RolPermiso;
 import java.util.List;
 import java.util.Optional;
 
-public interface RolPermisoInterface {
+public interface RolPermisoService {
     List<RolPermiso> findAllActivos();
     List<RolPermiso> findAllInactivos();
     Optional<RolPermiso> findById(Long id);

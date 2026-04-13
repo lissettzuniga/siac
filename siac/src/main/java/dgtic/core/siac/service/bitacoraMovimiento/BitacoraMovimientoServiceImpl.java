@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BitacoraMovimientoInterfaceImpl implements BitacoraMovimientoInterface{
+public class BitacoraMovimientoServiceImpl implements BitacoraMovimientoService {
 
     private final BitacoraMovimientoRepository bitacoraMovimientoRepository;
     private final UsuarioRepository usuarioRepository;
 
-    public BitacoraMovimientoInterfaceImpl(BitacoraMovimientoRepository bitacoraMovimientoRepository, UsuarioRepository usuarioRepository) {
+    public BitacoraMovimientoServiceImpl(BitacoraMovimientoRepository bitacoraMovimientoRepository, UsuarioRepository usuarioRepository) {
         this.bitacoraMovimientoRepository = bitacoraMovimientoRepository;
         this.usuarioRepository = usuarioRepository;
     }

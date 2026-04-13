@@ -1,0 +1,19 @@
+package dgtic.core.siac.dto.rolPermiso;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class RolPermisoResponseDTO {
+
+    private Long id;
+    private Long rolId;
+    private String nombreRol;
+    private Long permisoId;
+    private String nombrePermiso;
+    private Boolean activo;
+
+}

@@ -5,7 +5,7 @@ import dgtic.core.siac.model.Permiso;
 import java.util.List;
 import java.util.Optional;
 
-public interface PermisoInterface {
+public interface PermisoService {
 
     List<Permiso> findAllActivos();
     List<Permiso> findAllInactivos();
