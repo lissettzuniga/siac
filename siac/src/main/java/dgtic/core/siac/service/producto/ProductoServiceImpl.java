@@ -23,8 +23,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     public ProductoServiceImpl(ProductoRepository productoRepository,
                                CategoriaRepository categoriaRepository,
-                               UsuarioRepository usuarioRepository,
-                               TipoProductoRepository tipoProductoRepository) {
+                               UsuarioRepository usuarioRepository) {
         this.productoRepository = productoRepository;
         this.categoriaRepository = categoriaRepository;
         this.usuarioRepository = usuarioRepository;
@@ -32,26 +31,29 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public List<ProductoResponseDTO> findAllActivos() {
-        return productoRepository.findByActivoTrue()
-                .stream()
-                .map(ProductoMapper::toResponseDTO)
-                .toList();
+//        return productoRepository.findByActivoTrue()
+//                .stream()
+//                .map(ProductoMapper::toResponseDTO)
+//                .toList();
+        return null;
     }
 
     @Override
     public List<ProductoResponseDTO> findAllInactivos() {
-        return productoRepository.findByActivoFalse()
-                .stream()
-                .map(ProductoMapper::toResponseDTO)
-                .toList();
+//        return productoRepository.findByActivoFalse()
+//                .stream()
+//                .map(ProductoMapper::toResponseDTO)
+//                .toList();
+        return null;
     }
 
     @Override
     public ProductoResponseDTO findById(Long id) {
-        Producto producto = productoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con id: " + id));
-
-        return ProductoMapper.toResponseDTO(producto);
+//        Producto producto = productoRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado con id: " + id));
+//
+//        return ProductoMapper.toResponseDTO(producto);
+        return null;
     }
 
     @Override
@@ -79,7 +81,8 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setActivo(true);
 
         Producto productoGuardado = productoRepository.save(producto);
-        return ProductoMapper.toResponseDTO(productoGuardado);
+//        return ProductoMapper.toResponseDTO(productoGuardado);
+        return null;
     }
 
     @Override
@@ -108,7 +111,8 @@ public class ProductoServiceImpl implements ProductoService {
         producto.setCategoria(categoria);
 
         Producto productoActualizado = productoRepository.save(producto);
-        return ProductoMapper.toResponseDTO(productoActualizado);
+        //return ProductoMapper.toResponseDTO(productoActualizado);
+        return null;
     }
 
     @Override

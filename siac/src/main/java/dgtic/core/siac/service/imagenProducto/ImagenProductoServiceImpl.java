@@ -26,26 +26,29 @@ public class ImagenProductoServiceImpl implements ImagenProductoService {
 
     @Override
     public List<ImagenProductoResponseDTO> findAllActivas() {
-        return imagenProductoRepository.findByActivoTrue()
-                .stream()
-                .map(ImagenProductoMapper::toResponseDTO)
-                .toList();
+//        return imagenProductoRepository.findByActivoTrue()
+//                .stream()
+//                .map(ImagenProductoMapper::toResponseDTO)
+//                .toList();
+        return null;
     }
 
     @Override
     public List<ImagenProductoResponseDTO> findAllInactivas() {
-        return imagenProductoRepository.findByActivoFalse()
-                .stream()
-                .map(ImagenProductoMapper::toResponseDTO)
-                .toList();
+//        return imagenProductoRepository.findByActivoFalse()
+//                .stream()
+//                .map(ImagenProductoMapper::toResponseDTO)
+//                .toList();
+        return null;
     }
 
     @Override
     public ImagenProductoResponseDTO findById(Long id) {
-        ImagenProducto imagenProducto = imagenProductoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Imagen no encontrada con id: " + id));
-
-        return ImagenProductoMapper.toResponseDTO(imagenProducto);
+//        ImagenProducto imagenProducto = imagenProductoRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Imagen no encontrada con id: " + id));
+//
+//        return ImagenProductoMapper.toResponseDTO(imagenProducto);
+        return null;
     }
 
     @Override
@@ -62,7 +65,8 @@ public class ImagenProductoServiceImpl implements ImagenProductoService {
                 .build();
 
         ImagenProducto imagenGuardada = imagenProductoRepository.save(imagenProducto);
-        return ImagenProductoMapper.toResponseDTO(imagenGuardada);
+        //return ImagenProductoMapper.toResponseDTO(imagenGuardada);
+        return null;
     }
 
     @Override
@@ -79,7 +83,8 @@ public class ImagenProductoServiceImpl implements ImagenProductoService {
         imagenProducto.setNombreArchivo(request.getNombreArchivo());
 
         ImagenProducto imagenActualizada = imagenProductoRepository.save(imagenProducto);
-        return ImagenProductoMapper.toResponseDTO(imagenActualizada);
+        //return ImagenProductoMapper.toResponseDTO(imagenActualizada);
+        return null;
     }
 
     @Override

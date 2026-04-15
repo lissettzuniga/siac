@@ -12,10 +12,9 @@ import lombok.*;
 @Builder
 public class PermisoRequestDTO {
 
-    @NotBlank(message = "El nombre del permiso es obligatorio")
-    @Size(max = 100, message = "El nombre no debe exceder 100 caracteres")
-    private String nombre;
+    @NotBlank(message = "La acción es obligatoria")
+    private String accion;
 
-    @Size(max = 255, message = "La descripción no debe exceder 255 caracteres")
-    private String descripcion;
+    @NotBlank(message = "El recurso es obligatorio")
+    private String recurso;
 }

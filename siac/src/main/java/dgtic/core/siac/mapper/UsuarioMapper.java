@@ -3,25 +3,30 @@ package dgtic.core.siac.mapper;
 import dgtic.core.siac.dto.usuario.UsuarioRequestDTO;
 import dgtic.core.siac.dto.usuario.UsuarioResponseDTO;
 import dgtic.core.siac.model.Usuario;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UsuarioMapper {
 
     //  RequestDTO -> Entity
-    public static Usuario toEntity(UsuarioRequestDTO request) {
-        if (request == null) return null;
+    public Usuario toEntity(UsuarioRequestDTO request) {
+        if (request == null) {
+            return null;
+        }
 
         return Usuario.builder()
                 .nombre(request.getNombre())
                 .apPaterno(request.getApPaterno())
                 .apMaterno(request.getApMaterno())
                 .correo(request.getCorreo())
-                .activo(true)
                 .build();
     }
 
     // Entity -> ResponseDTO
-    public static UsuarioResponseDTO toResponseDTO(Usuario usuario) {
-        if (usuario == null) return null;
+    public UsuarioResponseDTO toResponseDTO(Usuario usuario) {
+        if (usuario == null){
+            return null;
+        }
 
         return UsuarioResponseDTO.builder()
                 .id(usuario.getId())
@@ -36,8 +41,10 @@ public class UsuarioMapper {
     }
 
     // Update Entity
-    public static void updateEntityFromDTO(UsuarioRequestDTO request, Usuario usuario) {
-        if (request == null || usuario == null) return;
+    public void updateEntityFromDTO(UsuarioRequestDTO request, Usuario usuario) {
+        if (request == null || usuario == null){
+            return;
+        }
 
         usuario.setNombre(request.getNombre());
         usuario.setApPaterno(request.getApPaterno());

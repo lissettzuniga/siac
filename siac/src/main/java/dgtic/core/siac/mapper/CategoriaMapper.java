@@ -3,11 +3,13 @@ package dgtic.core.siac.mapper;
 import dgtic.core.siac.dto.categoria.CategoriaRequestDTO;
 import dgtic.core.siac.dto.categoria.CategoriaResponseDTO;
 import dgtic.core.siac.model.Categoria;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CategoriaMapper {
 
     // RequestDTO -> Entity
-    public static Categoria toEntity(CategoriaRequestDTO request) {
+    public Categoria toEntity(CategoriaRequestDTO request) {
         if (request == null) {
             return null;
         }
@@ -19,7 +21,7 @@ public class CategoriaMapper {
     }
 
     // Entity -> ResponseDTO
-    public static CategoriaResponseDTO toResponseDTO(Categoria categoria) {
+    public CategoriaResponseDTO toResponseDTO(Categoria categoria) {
         if (categoria == null) {
             return null;
         }
@@ -33,7 +35,7 @@ public class CategoriaMapper {
     }
 
     // Actualizar Entity
-    public static void updateEntityFromDTO(CategoriaRequestDTO request, Categoria categoria) {
+    public void updateEntityFromDTO(CategoriaRequestDTO request, Categoria categoria) {
         if (request == null || categoria == null) {
             return;
         }

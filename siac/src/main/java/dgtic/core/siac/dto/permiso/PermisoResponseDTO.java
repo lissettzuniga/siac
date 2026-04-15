@@ -11,7 +11,7 @@ import lombok.*;
 public class PermisoResponseDTO {
 
     private Long id;
-    private String nombre;
-    private String descripcion;
+    private String accion;
+    private String recurso;
     private Boolean activo;
 }

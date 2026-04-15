@@ -15,25 +15,29 @@ import java.util.Optional;
 public class CategoriaServiceImpl implements CategoriaService{
 
     private final CategoriaRepository categoriaRepository;
+    private final CategoriaMapper categoriaMapper;
 
-    public CategoriaServiceImpl(CategoriaRepository categoriaRepository) {
+    public CategoriaServiceImpl(CategoriaRepository categoriaRepository, CategoriaMapper categoriaMapper) {
         this.categoriaRepository = categoriaRepository;
+        this.categoriaMapper = categoriaMapper;
     }
 
     @Override
     public List<CategoriaResponseDTO> findAllActivos() {
-        return categoriaRepository.findByActivoTrue()
-                .stream()
-                .map(CategoriaMapper::toResponseDTO)
-                .toList();
+//        return categoriaRepository.findByActivoTrue()
+//                .stream()
+//                //.map(CategoriaMapper::toResponseDTO)
+//                .toList();
+        return null;
     }
 
     @Override
     public List<CategoriaResponseDTO> findAllInactivos() {
-        return categoriaRepository.findByActivoFalse()
-                .stream()
-                .map(CategoriaMapper::toResponseDTO)
-                .toList();
+//        return categoriaRepository.findByActivoFalse()
+//                .stream()
+//                .map(CategoriaMapper::toResponseDTO)
+//                .toList();
+        return null;
     }
 
     @Override
@@ -41,15 +45,17 @@ public class CategoriaServiceImpl implements CategoriaService{
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con id: " + id));
 
-        return CategoriaMapper.toResponseDTO(categoria);
+//        return CategoriaMapper.toResponseDTO(categoria);
+        return null;
     }
 
 
     @Override
     public CategoriaResponseDTO create(CategoriaRequestDTO request) {
-        Categoria categoria = CategoriaMapper.toEntity(request);
-        Categoria categoriaGuardada = categoriaRepository.save(categoria);
-        return CategoriaMapper.toResponseDTO(categoriaGuardada);
+//        Categoria categoria = CategoriaMapper.toEntity(request);
+//        Categoria categoriaGuardada = categoriaRepository.save(categoria);
+//        return CategoriaMapper.toResponseDTO(categoriaGuardada);
+        return null;
     }
 
     @Override
@@ -57,10 +63,11 @@ public class CategoriaServiceImpl implements CategoriaService{
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada con id: " + id));
 
-        CategoriaMapper.updateEntityFromDTO(request, categoria);
+        //CategoriaMapper.updateEntityFromDTO(request, categoria);
 
         Categoria categoriaActualizada = categoriaRepository.save(categoria);
-        return CategoriaMapper.toResponseDTO(categoriaActualizada);
+        //return CategoriaMapper.toResponseDTO(categoriaActualizada);
+        return null;
     }
 
     @Override

@@ -5,7 +5,6 @@ public enum EntidadEnum {
     ROL,
     PERMISO,
     CATEGORIA,
-    TIPO_PRODUCTO,
     TIPO_MOVIMIENTO,
     TIPO_CARTA,
     PRODUCTO,

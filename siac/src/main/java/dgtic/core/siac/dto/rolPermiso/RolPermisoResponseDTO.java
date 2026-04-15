@@ -13,7 +13,7 @@ public class RolPermisoResponseDTO {
     private Long rolId;
     private String nombreRol;
     private Long permisoId;
-    private String nombrePermiso;
+    private String accionPermiso;
     private Boolean activo;
 
 }
