@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{plantillas/plantilla :: head('Lista de Productos')}"></head>
+
+<body>
+<div th:replace="~{plantillas/plantilla :: header}"></div>
+
+<div class="container page-wrap">
+    <div class="siac-panel">
+        <div class="siac-panel-header primary d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <h2 class="h4 mb-1">Gestión de Productos</h2>
+            </div>
+            <a th:href="@{/productos/nuevo}" class="btn btn-siac-primary">Nuevo producto</a>
+        </div>
+
+        <div class="siac-panel-body">
+
+            <h4 class="mt-2 mb-3">Productos activos</h4>
+
+            <div th:if="${productos == null or #lists.isEmpty(productos)}" class="alert alert-info">
+                No hay productos activos registrados.
+            </div>
+
+            <div th:if="${productos != null and !#lists.isEmpty(productos)}" class="table-responsive">
+                <table class="table table-siac align-middle">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Cantidad actual</th>
+                        <th>Categoría</th>
+                        <th>Tipo producto</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="producto : ${productos}">
+                        <td th:text="${producto.id}"></td>
+                        <td th:text="${producto.nombre}"></td>
+                        <td th:text="${producto.descripcion != null ? producto.descripcion : '-'}"></td>
+                        <td th:text="${producto.precio}"></td>
+                        <td th:text="${producto.cantidadActual}"></td>
+                        <td th:text="${producto.categoria != null ? producto.categoria.nombre : '-'}"></td>
+                        <td th:text="${producto.tipoProducto != null ? producto.tipoProducto.nombre : '-'}"></td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                <a th:href="@{/productos/editar/{id}(id=${producto.id})}"
+                                   class="btn btn-sm btn-siac-warning">
+                                    Editar
+                                </a>
+
+                                <form th:action="@{/productos/desactivar/{id}(id=${producto.id})}"
+                                      method="post"
+                                      style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-siac-danger-outline">
+                                        Desactivar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="mt-5 mb-3">Productos inactivos</h4>
+
+            <div th:if="${productosInactivos == null or #lists.isEmpty(productosInactivos)}"
+                 class="alert alert-secondary">
+                No hay productos inactivos.
+            </div>
+
+            <div th:if="${productosInactivos != null and !#lists.isEmpty(productosInactivos)}"
+                 class="table-responsive">
+                <table class="table table-siac align-middle">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th class="text-center">Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="producto : ${productosInactivos}">
+                        <td th:text="${producto.id}"></td>
+                        <td th:text="${producto.nombre}"></td>
+                        <td class="text-center">
+                            <form th:action="@{/productos/activar/{id}(id=${producto.id})}"
+                                  method="post"
+                                  style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-siac-success-outline">
+                                    Activar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{plantillas/plantilla :: footer}"></div>
+</body>
+</html>
