@@ -1,0 +1,16 @@
+# IntelliJ
+.idea/
+
+# React
+node_modules/
+dist/
+
+# Spring
+target/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
