@@ -2,26 +2,40 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { canManageProductos } from "../auth/roleUtils";
 import { getAccessToken } from "../services/authService";
+import { obtenerCategorias } from "../services/categoriaService";
+
 import {
   obtenerProductos as obtenerProductosService,
+  obtenerProductosInactivos,
   eliminarProductoPorId,
+  activarProductoPorId,
   crearProducto,
   actualizarProducto,
 } from "../services/productoService";
+
 import logo from "../assets/logo-siac.png";
 import pokemon from "../assets/pokemon.png";
 import "../styles/productosPage.css";
 
 function ProductosPage() {
+  const navigate = useNavigate();
+  const token = getAccessToken();
+
   const [productos, setProductos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
   const [categoria, setCategoria] = useState("");
   const [precioMax, setPrecioMax] = useState("");
+  const [categoriasDisponibles, setCategoriasDisponibles] = useState([]);
+  const [mostrarInactivos, setMostrarInactivos] = useState(false);
 
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [mostrarDetalle, setMostrarDetalle] = useState(false);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
+
+  const [pagina, setPagina] = useState(0);
+  const [totalPaginas, setTotalPaginas] = useState(0);
+  const size = 8;
 
   const [formProducto, setFormProducto] = useState({
     nombre: "",
@@ -31,20 +45,40 @@ function ProductosPage() {
     categoriaId: "",
   });
 
-  const navigate = useNavigate();
-  const token = getAccessToken();
-
   useEffect(() => {
-    obtenerProductos();
+    cargarCategorias();
   }, []);
 
-  const obtenerProductos = async () => {
+  useEffect(() => {
+    cargarProductos();
+  }, [pagina, mostrarInactivos]);
+
+  const cargarProductos = async () => {
     try {
-      const data = await obtenerProductosService();
+      const data = mostrarInactivos
+        ? await obtenerProductosInactivos(pagina, size)
+        : await obtenerProductosService(pagina, size);
+
       setProductos(data.content || []);
+      setTotalPaginas(data.totalPages || 0);
     } catch (error) {
-      console.error("Error cargando productos:", error);
+      console.error(error);
+      alert(error.message || "Error al cargar productos");
     }
+  };
+
+  const cargarCategorias = async () => {
+    try {
+      const data = await obtenerCategorias();
+      setCategoriasDisponibles(data.content || data || []);
+    } catch (error) {
+      console.error("Error cargando categorías:", error);
+    }
+  };
+
+  const cambiarVistaProductos = () => {
+    setPagina(0);
+    setMostrarInactivos(!mostrarInactivos);
   };
 
   const abrirDetalle = (producto) => {
@@ -78,19 +112,71 @@ function ProductosPage() {
     setMostrarFormulario(true);
   };
 
+  const manejarCambioFormulario = (e) => {
+    const { name, value } = e.target;
+
+    setFormProducto({
+      ...formProducto,
+      [name]: value,
+    });
+  };
+
+  const guardarProducto = async (e) => {
+    e.preventDefault();
+
+    try {
+      const productoRequest = {
+        nombre: formProducto.nombre,
+        descripcion: formProducto.descripcion,
+        precio: Number(formProducto.precio),
+        cantidadActual: Number(formProducto.cantidadActual),
+        categoriaId: Number(formProducto.categoriaId),
+      };
+
+      if (modoEdicion) {
+        await actualizarProducto(productoSeleccionado.id, productoRequest);
+        alert("Producto actualizado correctamente");
+      } else {
+        await crearProducto(productoRequest);
+        alert("Producto creado correctamente");
+      }
+
+      setMostrarFormulario(false);
+      setModoEdicion(false);
+      setProductoSeleccionado(null);
+
+      await cargarProductos();
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "Error al guardar producto");
+    }
+  };
+
   const eliminarProducto = async (id) => {
-    const confirmar = window.confirm("¿Seguro que deseas eliminar este producto?");
+    const confirmar = window.confirm(
+      "¿Seguro que deseas desactivar este producto?"
+    );
 
     if (!confirmar) return;
 
     try {
       await eliminarProductoPorId(id);
-
-      alert("Producto eliminado correctamente");
-      obtenerProductos();
+      alert("Producto desactivado correctamente");
+      await cargarProductos();
     } catch (error) {
       console.error(error);
-      alert("No se pudo eliminar el producto");
+      alert(error.message || "No se pudo desactivar el producto");
+    }
+  };
+
+  const activarProducto = async (id) => {
+    try {
+      await activarProductoPorId(id);
+      alert("Producto activado correctamente");
+      await cargarProductos();
+    } catch (error) {
+      console.error(error);
+      alert(error.message || "No se pudo activar el producto");
     }
   };
 
@@ -115,45 +201,8 @@ function ProductosPage() {
       productos
         .map((producto) => producto.categoriaNombre)
         .filter(Boolean)
-    )
+    ),
   ];
-
- const manejarCambioFormulario = (e) => {
-   const { name, value } = e.target;
-
-   setFormProducto({
-     ...formProducto,
-     [name]: value,
-   });
- };
-
- const guardarProducto = async (e) => {
-   e.preventDefault();
-
-   try {
-     const productoRequest = {
-       nombre: formProducto.nombre,
-       descripcion: formProducto.descripcion,
-       precio: Number(formProducto.precio),
-       cantidadActual: Number(formProducto.cantidadActual),
-       categoriaId: Number(formProducto.categoriaId),
-     };
-
-     if (modoEdicion) {
-       await actualizarProducto(productoSeleccionado.id, productoRequest);
-       alert("Producto actualizado correctamente");
-     } else {
-       await crearProducto(productoRequest);
-       alert("Producto creado correctamente");
-     }
-
-     setMostrarFormulario(false);
-     obtenerProductos();
-   } catch (error) {
-     console.error(error);
-     alert("No se pudo guardar el producto");
-   }
- };
 
   return (
     <div className="productos-page">
@@ -178,6 +227,15 @@ function ProductosPage() {
             Explora artículos coleccionables, cartas, accesorios y sets
             disponibles.
           </p>
+
+          <div className="hero-actions">
+            <button
+              className="btn-primary"
+              onClick={() => navigate("/busqueda-inteligente")}
+            >
+              Buscar producto por imagen
+            </button>
+          </div>
         </div>
 
         <img
@@ -191,6 +249,10 @@ function ProductosPage() {
         <div className="admin-actions">
           <button className="btn-primary" onClick={abrirAgregar}>
             Agregar producto
+          </button>
+
+          <button className="btn-secondary" onClick={cambiarVistaProductos}>
+            {mostrarInactivos ? "Ver activos" : "Ver inactivos"}
           </button>
         </div>
       )}
@@ -208,6 +270,7 @@ function ProductosPage() {
           onChange={(e) => setCategoria(e.target.value)}
         >
           <option value="">Todas las categorías</option>
+
           {categorias.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
@@ -232,7 +295,13 @@ function ProductosPage() {
 
         {productosFiltrados.map((producto) => (
           <div className="producto-card" key={producto.id}>
-            <div className="producto-img">Sin imagen</div>
+            <div className="producto-img">
+              {producto.imagenUrl ? (
+                <img src={producto.imagenUrl} alt={producto.nombre} />
+              ) : (
+                "Sin imagen"
+              )}
+            </div>
 
             <h3>{producto.nombre}</h3>
             <p>{producto.descripcion}</p>
@@ -262,24 +331,55 @@ function ProductosPage() {
 
               {token && canManageProductos() && (
                 <>
-                  <button
-                    className="btn-edit"
-                    onClick={() => abrirEditar(producto)}
-                  >
-                    Editar
-                  </button>
+                  {!mostrarInactivos ? (
+                    <>
+                      <button
+                        className="btn-edit"
+                        onClick={() => abrirEditar(producto)}
+                      >
+                        Editar
+                      </button>
 
-                  <button
-                    className="btn-delete"
-                    onClick={() => eliminarProducto(producto.id)}
-                  >
-                    Eliminar
-                  </button>
+                      <button
+                        className="btn-delete"
+                        onClick={() => eliminarProducto(producto.id)}
+                      >
+                        Desactivar
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      className="btn-edit"
+                      onClick={() => activarProducto(producto.id)}
+                    >
+                      Activar
+                    </button>
+                  )}
                 </>
               )}
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="pagination">
+        <button
+          disabled={pagina === 0}
+          onClick={() => setPagina(pagina - 1)}
+        >
+          Anterior
+        </button>
+
+        <span>
+          Página {pagina + 1} de {totalPaginas || 1}
+        </span>
+
+        <button
+          disabled={pagina + 1 >= totalPaginas}
+          onClick={() => setPagina(pagina + 1)}
+        >
+          Siguiente
+        </button>
       </div>
 
       {mostrarDetalle && productoSeleccionado && (
@@ -356,15 +456,20 @@ function ProductosPage() {
                 required
               />
 
-              <input
-                type="number"
+              <select
                 name="categoriaId"
-                placeholder="ID de categoría"
                 value={formProducto.categoriaId}
                 onChange={manejarCambioFormulario}
-                min="1"
                 required
-              />
+              >
+                <option value="">Selecciona una categoría</option>
+
+                {categoriasDisponibles.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.nombre}
+                  </option>
+                ))}
+              </select>
 
               <div className="acciones">
                 <button className="btn-primary" type="submit">

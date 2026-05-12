@@ -1,0 +1,105 @@
+.producto-carta-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 32px;
+}
+
+.producto-carta-header {
+  background: #111827;
+  color: white;
+  padding: 32px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.producto-carta-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.producto-carta-header p {
+  color: #d1d5db;
+  margin-top: 8px;
+}
+
+.producto-carta-header button {
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.producto-carta-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.producto-carta-table-card {
+  background: white;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.producto-carta-table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.producto-carta-table-card th,
+.producto-carta-table-card td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.producto-carta-table-card th {
+  color: #111827;
+  font-weight: 800;
+}
+
+.producto-carta-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.producto-carta-form input,
+.producto-carta-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  font-size: 16px;
+  background: #f9fafb;
+}
+
+.producto-carta-form .acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 14px;
+}
+
+.sin-registros {
+  color: #6b7280;
+  margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+  .producto-carta-form {
+    grid-template-columns: 1fr;
+  }
+
+  .producto-carta-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+}

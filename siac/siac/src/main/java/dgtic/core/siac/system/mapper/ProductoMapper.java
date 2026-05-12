@@ -27,6 +27,17 @@ public class ProductoMapper {
             return null;
         }
 
+        String imagenUrl = null;
+
+        if (producto.getImagenes() != null && !producto.getImagenes().isEmpty()) {
+            imagenUrl = producto.getImagenes().stream()
+                    .filter(imagen -> Boolean.TRUE.equals(imagen.getActivo()))
+                    .map(imagen -> imagen.getRuta())
+                    .findFirst()
+                    .orElse(null);
+        }
+
+
         return ProductoResponseDTO.builder()
                 .id(producto.getId())
                 .nombre(producto.getNombre())
@@ -35,13 +46,7 @@ public class ProductoMapper {
                 .cantidadActual(producto.getCantidadActual())
                 .fechaCreacion(producto.getFechaCreacion())
                 .activo(producto.getActivo())
-
-                .usuarioId(producto.getUsuario() != null ? producto.getUsuario().getId() : null)
-                .usuarioNombre(producto.getUsuario() != null
-                        ? producto.getUsuario().getNombre() + " " + producto.getUsuario().getApPaterno()
-                        : null)
-
-
+                .imagenUrl(imagenUrl)
                 .categoriaId(producto.getCategoria() != null ? producto.getCategoria().getId() : null)
                 .categoriaNombre(producto.getCategoria() != null ? producto.getCategoria().getNombre() : null)
                 .build();

@@ -20,9 +20,10 @@ public class ProductoResponseDTO {
     private LocalDateTime fechaCreacion;
     private Boolean activo;
 
-    private Long usuarioId;
     private String usuarioNombre;
 
     private Long categoriaId;
     private String categoriaNombre;
+
+    private String imagenUrl;
 }

@@ -31,7 +31,4 @@ public class ProductoRequestDTO {
     @Positive(message = "El id de la categoría debe ser mayor a cero")
     private Long categoriaId;
 
-    @NotNull(message = "El usuario es obligatorio")
-    @Positive(message = "El id del usuario debe ser mayor a cero")
-    private Long usuarioId;
 }

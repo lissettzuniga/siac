@@ -1,0 +1,114 @@
+.usuario-rol-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 32px;
+}
+
+.usuario-rol-header {
+  background: #111827;
+  color: white;
+  padding: 32px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.usuario-rol-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.usuario-rol-header p {
+  color: #d1d5db;
+  margin-top: 8px;
+}
+
+.usuario-rol-header button {
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.usuario-rol-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.usuario-rol-form-card,
+.usuario-rol-table-card {
+  background: white;
+  padding: 24px;
+  border-radius: 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.usuario-rol-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.usuario-rol-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  font-size: 15px;
+  background: #f9fafb;
+}
+
+.usuario-rol-form .acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 14px;
+}
+
+.usuario-rol-table-card {
+  overflow-x: auto;
+}
+
+.usuario-rol-table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.usuario-rol-table-card th,
+.usuario-rol-table-card td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.usuario-rol-table-card th {
+  color: #111827;
+  font-weight: 800;
+}
+
+.usuario-rol-table-card span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.sin-registros {
+  color: #6b7280;
+  margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+  .usuario-rol-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .usuario-rol-form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -170,14 +170,14 @@ INSERT INTO rol_permiso (id_permiso, id_rol, activo) VALUES
 -- =========================================================
 INSERT INTO producto (
     nombre, descripcion, precio, cantidad_actual,
-    id_usuario, id_categoria,
+    id_categoria,
     fecha_creacion, activo
 ) VALUES
-('Pikachu V', 'Carta coleccionable Pikachu V', 150.00, 10, 1, 1, '2026-03-05 12:00:00', 1),
-('Charizard GX', 'Carta coleccionable Charizard GX', 450.00, 5, 2,1, '2026-03-05 12:20:00', 1),
-('Figura Goku', 'Figura de colección de Goku', 799.00, 3, 2, 2, '2026-03-06 13:00:00', 1),
-('Protector Acrilico', 'Protector transparente para carta', 45.00, 25, 3, 3, '2026-03-06 13:30:00', 1),
-('Carta Mago Oscuro', 'Carta Yu-Gi-Oh! Mago Oscuro', 220.00, 7, 3, 1, '2026-03-07 14:00:00', 1);
+('Pikachu V', 'Carta coleccionable Pikachu V', 150.00, 10, 1, '2026-03-05 12:00:00', 1),
+('Charizard GX', 'Carta coleccionable Charizard GX', 450.00, 9,1, '2026-03-05 12:20:00', 1),
+('Figura Goku', 'Figura de colección de Goku', 799.00, 3, 2, '2026-03-06 13:00:00', 1),
+('Protector Acrilico', 'Protector transparente para carta', 45.00, 25, 3, '2026-03-06 13:30:00', 1),
+('Carta Mago Oscuro', 'Carta Yu-Gi-Oh! Mago Oscuro', 220.00, 7, 1, '2026-03-07 14:00:00', 1);
 
 -- =========================================================
 -- 11) MOVIMIENTO_INVENTARIO
@@ -213,11 +213,11 @@ INSERT INTO bitacora_movimiento (
 INSERT INTO imagen_producto (
     id_producto, ruta, nombre_archivo, fecha_registro, activo
 ) VALUES
-(1, '/img/productos/pikachu-v-front.jpg', 'pikachu-v-front.jpg', '2026-03-05 12:10:00', 1),
-(1, '/img/productos/pikachu-v-back.jpg', 'pikachu-v-back.jpg', '2026-03-05 12:11:00', 1),
-(2, '/img/productos/charizard-gx.jpg', 'charizard-gx.jpg', '2026-03-05 12:30:00', 1),
-(3, '/img/productos/figura-goku.jpg', 'figura-goku.jpg', '2026-03-06 13:10:00', 1),
-(5, '/img/productos/mago-oscuro.jpg', 'mago-oscuro.jpg', '2026-03-07 14:10:00', 1);
+(1, '/productos/pikachu-v.jpg', 'pikachu-v.jpg', '2026-03-05 12:10:00', 1),
+(2, '/productos/charizard-gx.jpg', 'charizard-gx.jpg','2026-03-05 12:11:00', 1),
+(3, '/productos/figura-goku.jpg', 'figura-goku.jpg', '2026-03-05 12:30:00', 1),
+(4, '/productos/protector-acrilico.jpg', 'protector-acrilico.jpg', '2026-03-06 13:10:00', 1),
+(5, '/productos/carta-mago-oscuro.jpg', 'carta-mago-oscuro.jpg', '2026-03-07 14:10:00', 1);
 
 -- =========================================================
 -- 14) PRODUCTO_CARTA

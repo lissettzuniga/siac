@@ -31,10 +31,6 @@ public class BitacoraMovimiento {
     @Column(nullable = false, length = 50)
     private EntidadEnum entidad;
 
-    //@NotNull(message = "El id de la entidad es obligatorio")
-    @Column(name = "id_entidad")
-    private Long idEntidad;
-
     // ENUM acción
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

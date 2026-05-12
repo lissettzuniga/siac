@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
+
                         // Auth
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/refresh").permitAll()
@@ -50,83 +51,137 @@ public class SecurityConfiguration {
                         // Dashboard
                         .requestMatchers("/api/dashboard/data").authenticated()
 
-                        // Bitácora: solo lectura para ADMIN y AUDITOR
+                        // Bitácora
                         .requestMatchers(HttpMethod.GET, "/api/bitacora-movimientos/**")
-                        .hasAnyRole("ADMIN", "AUDITOR")
+                        .hasAnyAuthority("ROLE_ADMIN", "ROLE_AUDITOR")
 
-                        // Usuarios y seguridad: solo ADMIN
+                        // Usuarios
+                        .requestMatchers(HttpMethod.PATCH, "/api/usuarios/change-password")
+                        .authenticated()
+
                         .requestMatchers("/api/usuarios/**")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ROLE_ADMIN")
 
                         .requestMatchers("/api/roles/**")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ROLE_ADMIN")
 
                         .requestMatchers("/api/usuario-roles/**")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ROLE_ADMIN")
 
-                        // Permisos y rol-permisos: AUDITOR solo lectura, ADMIN todo
+
+                        // Permisos
                         .requestMatchers(HttpMethod.GET, "/api/permisos/**")
-                        .hasAnyRole("ADMIN", "AUDITOR")
+                        .hasAnyAuthority("ROLE_ADMIN", "ROLE_AUDITOR")
 
                         .requestMatchers("/api/permisos/**")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ROLE_ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/rol-permisos/**")
-                        .hasAnyRole("ADMIN", "AUDITOR")
+                        .hasAnyAuthority("ROLE_ADMIN", "ROLE_AUDITOR")
 
                         .requestMatchers("/api/rol-permisos/**")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ROLE_ADMIN")
 
-                        // Productos: CLIENTE y AUDITOR solo lectura
+                        // Productos
                         .requestMatchers(HttpMethod.GET, "/api/productos/**")
                         .permitAll()
 
                         .requestMatchers("/api/productos/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO"
+                        )
 
-                        // Productos carta: CLIENTE y AUDITOR solo lectura
+                        // Productos carta
                         .requestMatchers(HttpMethod.GET, "/api/productos-carta/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO", "CLIENTE", "AUDITOR")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO",
+                                "ROLE_CLIENTE",
+                                "ROLE_AUDITOR"
+                        )
 
                         .requestMatchers("/api/productos-carta/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO"
+                        )
 
-                        // Categorías: CLIENTE y AUDITOR solo lectura
+                        // Categorías
                         .requestMatchers(HttpMethod.GET, "/api/categorias/**")
                         .permitAll()
 
                         .requestMatchers("/api/categorias/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO"
+                        )
 
-                        // Tipos de carta: ADMIN modifica, demás solo consulta
+                        // Tipos carta
                         .requestMatchers(HttpMethod.GET, "/api/tipos-carta/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO", "CLIENTE", "AUDITOR")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO",
+                                "ROLE_CLIENTE",
+                                "ROLE_AUDITOR"
+                        )
 
                         .requestMatchers("/api/tipos-carta/**")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ROLE_ADMIN")
 
-                        // Tipos de movimiento: CLIENTE no accede
+                        // Tipos movimiento
                         .requestMatchers(HttpMethod.GET, "/api/tipos-movimiento/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO", "AUDITOR")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO",
+                                "ROLE_AUDITOR"
+                        )
 
                         .requestMatchers("/api/tipos-movimiento/**")
-                        .hasRole("ADMIN")
+                        .hasAuthority("ROLE_ADMIN")
 
-                        // Movimientos inventario: AUDITOR solo lectura
+                        // Movimientos inventario
                         .requestMatchers(HttpMethod.GET, "/api/movimientos-inventario/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO", "AUDITOR")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO",
+                                "ROLE_AUDITOR"
+                        )
 
                         .requestMatchers("/api/movimientos-inventario/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO"
+                        )
 
-                        // Imágenes producto: CLIENTE y AUDITOR solo lectura
+                        // Imágenes
                         .requestMatchers(HttpMethod.GET, "/api/imagenes-producto/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO", "CLIENTE", "AUDITOR")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO",
+                                "ROLE_CLIENTE",
+                                "ROLE_AUDITOR"
+                        )
 
                         .requestMatchers("/api/imagenes-producto/**")
-                        .hasAnyRole("ADMIN", "SUPERVISOR", "EMPLEADO")
+                        .hasAnyAuthority(
+                                "ROLE_ADMIN",
+                                "ROLE_SUPERVISOR",
+                                "ROLE_EMPLEADO"
+                        )
 
-                        // Todo lo demás requiere autenticación
+                        .requestMatchers(HttpMethod.POST, "/api/busqueda-imagen")
+                        .permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

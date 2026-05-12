@@ -17,10 +17,6 @@ public class ImagenProductoRequestDTO {
     @Positive(message = "El id del producto debe ser mayor a cero")
     private Long productoId;
 
-    @NotNull(message = "El usuario es obligatorio")
-    @Positive(message = "El id del usuario debe ser mayor a cero")
-    private Long usuarioId;
-
     @NotBlank(message = "La ruta es obligatoria")
     @Size(max = 255, message = "La ruta no debe exceder 255 caracteres")
     private String ruta;

@@ -1,0 +1,128 @@
+.usuarios-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 32px;
+}
+
+.usuarios-header {
+  background: #111827;
+  color: white;
+  padding: 32px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.usuarios-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.usuarios-header p {
+  color: #d1d5db;
+  margin-top: 8px;
+}
+
+.usuarios-header button {
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.usuarios-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.usuarios-filter {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.usuarios-filter input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.usuarios-table-card {
+  background: white;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.usuarios-table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.usuarios-table-card th,
+.usuarios-table-card td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.usuarios-table-card th {
+  color: #111827;
+  font-weight: 800;
+}
+
+.usuario-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.usuario-form input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  font-size: 16px;
+  outline: none;
+  background: #f9fafb;
+}
+
+.usuario-form input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.usuario-form .acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.sin-usuarios {
+  color: #6b7280;
+  margin-top: 20px;
+}
+
+@media (max-width: 700px) {
+  .usuario-form {
+    grid-template-columns: 1fr;
+  }
+
+  .usuarios-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+}

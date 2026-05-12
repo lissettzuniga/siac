@@ -138,6 +138,7 @@ public class ImagenProductoServiceImpl implements ImagenProductoService {
 
         imagen.setActivo(false);
         imagenProductoRepository.save(imagen);
+
     }
 
     @Auditable(

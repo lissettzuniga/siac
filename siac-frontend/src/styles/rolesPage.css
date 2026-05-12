@@ -1,0 +1,84 @@
+.roles-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 32px;
+}
+
+.roles-header {
+  background: #111827;
+  color: white;
+  padding: 32px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.roles-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.roles-header p {
+  color: #d1d5db;
+  margin-top: 8px;
+}
+
+.roles-header button {
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.roles-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.roles-table-card {
+  background: white;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.roles-table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.roles-table-card th,
+.roles-table-card td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.roles-table-card th {
+  color: #111827;
+  font-weight: 800;
+}
+
+.roles-form {
+  display: grid;
+  gap: 16px;
+}
+
+.roles-form input,
+.roles-form textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.roles-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}

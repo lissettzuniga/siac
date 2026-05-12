@@ -22,24 +22,47 @@ public class ProductoCartaMapper {
 
     }
 
-    public ProductoCartaResponseDTO toResponseDTO(ProductoCarta productoCarta){
-        if (productoCarta == null){
+    public ProductoCartaResponseDTO toResponseDTO(ProductoCarta productoCarta) {
+        if (productoCarta == null) {
             return null;
         }
 
+        var producto = productoCarta.getProducto();
         var tipoCarta = productoCarta.getTipoCarta();
 
         return ProductoCartaResponseDTO.builder()
                 .id(productoCarta.getId())
-                .tipoCartaId(tipoCarta != null ? tipoCarta.getId() : null)
-                .tipoCartaNombre(tipoCarta != null ? tipoCarta.getNombre() : null)
+
+                .productoId(
+                        producto != null
+                                ? producto.getId()
+                                : null
+                )
+
+                .productoNombre(
+                        producto != null
+                                ? producto.getNombre()
+                                : null
+                )
+
+                .tipoCartaId(
+                        tipoCarta != null
+                                ? tipoCarta.getId()
+                                : null
+                )
+
+                .tipoCartaNombre(
+                        tipoCarta != null
+                                ? tipoCarta.getNombre()
+                                : null
+                )
+
                 .atributo(productoCarta.getAtributo())
                 .ataque(productoCarta.getAtaque())
                 .defensa(productoCarta.getDefensa())
                 .nivel(productoCarta.getNivel())
                 .activo(productoCarta.getActivo())
                 .build();
-
     }
 
     public void updateEntityFromDTO(ProductoCartaRequestDTO dto, ProductoCarta productoCarta){

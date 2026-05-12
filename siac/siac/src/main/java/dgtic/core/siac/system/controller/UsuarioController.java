@@ -52,7 +52,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.getUsuarioAutenticado());
     }
 
-    @PatchMapping("/me/password")
+    @PatchMapping("/change-password")
     public ResponseEntity<Void> changePassword(
             @Valid @RequestBody ChangePasswordRequestDTO request
     ) {

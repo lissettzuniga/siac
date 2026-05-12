@@ -29,7 +29,7 @@ public class ProductoServiceImpl implements ProductoService {
     private final ProductoRepository productoRepository;
     private final CategoriaRepository categoriaRepository;
     private final ProductoMapper productoMapper;
-    private final SecurityUtils securityUtils;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -73,11 +73,9 @@ public class ProductoServiceImpl implements ProductoService {
                 .orElseThrow(() -> new CategoriaNotFoundException(request.getCategoriaId()));
 
 
-        Usuario usuarioAutenticado = securityUtils.getUsuarioAutenticado();
 
         Producto producto = productoMapper.toEntity(request);
         producto.setCategoria(categoria);
-        producto.setUsuario(usuarioAutenticado);
         producto.setActivo(true);
 
         Producto guardado = productoRepository.save(producto);

@@ -1,0 +1,89 @@
+.tipo-movimiento-page {
+  min-height: 100vh;
+  background: #f4f6fb;
+  padding: 32px;
+}
+
+.tipo-movimiento-header {
+  background: #111827;
+  color: white;
+  padding: 32px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tipo-movimiento-header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.tipo-movimiento-header p {
+  color: #d1d5db;
+  margin-top: 8px;
+}
+
+.tipo-movimiento-header button {
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.tipo-movimiento-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.tipo-movimiento-table-card {
+  background: white;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+.tipo-movimiento-table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tipo-movimiento-table-card th,
+.tipo-movimiento-table-card td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.tipo-movimiento-table-card th {
+  color: #111827;
+  font-weight: 800;
+}
+
+.tipo-movimiento-form {
+  display: grid;
+  gap: 16px;
+}
+
+.tipo-movimiento-form input,
+.tipo-movimiento-form textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 15px;
+}
+
+.tipo-movimiento-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.sin-registros {
+  color: #6b7280;
+  margin-top: 20px;
+}

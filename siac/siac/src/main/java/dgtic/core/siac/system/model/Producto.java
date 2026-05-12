@@ -42,9 +42,6 @@ public class Producto {
     @Column(name = "cantidad_actual", nullable = false)
     private Integer cantidadActual;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_usuario",nullable = false)
-    private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria",nullable = false)

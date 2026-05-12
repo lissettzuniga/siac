@@ -34,7 +34,6 @@ export const isAuditor = () => {
 |--------------------------------------------------------------------------
 */
 
-// CRUD productos
 export const canManageProductos = () => {
   return (
     isAdmin() ||
@@ -43,8 +42,67 @@ export const canManageProductos = () => {
   );
 };
 
-// Solo lectura productos
+export const canManageUsuarios = () => {
+  return isAdmin();
+};
+
+export const canViewBitacora = () => {
+  return (
+    isAdmin() ||
+    isAuditor()
+  );
+};
+
+export const canViewReportes = () => {
+  return (
+    isAdmin() ||
+    isSupervisor() ||
+    isAuditor()
+  );
+};
+
+export const canManageMovimientos = () => {
+  return (
+    isAdmin() ||
+    isSupervisor() ||
+    isEmpleado()
+  );
+};
+
+export const canViewMovimientos = () => {
+  return (
+    isAdmin() ||
+    isSupervisor() ||
+    isEmpleado() ||
+    isAuditor()
+  );
+};
+
+export const canManageCategorias = () => {
+  return (
+    isAdmin() ||
+    isSupervisor() ||
+    isEmpleado()
+  );
+};
+
 export const canViewProductos = () => {
+  return true;
+};
+
+export const canViewCategorias = () => {
+  return true;
+};
+
+export const canManageTiposMovimiento = () => {
+  return isAdmin();
+};
+
+export const canManageTiposCarta = () => {
+  return isAdmin();
+};
+
+export const canViewTiposCarta = () => {
   return (
     isAdmin() ||
     isSupervisor() ||
@@ -54,30 +112,7 @@ export const canViewProductos = () => {
   );
 };
 
-// Administración usuarios
-export const canManageUsuarios = () => {
-  return isAdmin();
-};
-
-// Bitácora lectura
-export const canViewBitacora = () => {
-  return (
-    isAdmin() ||
-    isAuditor()
-  );
-};
-
-// Reportes/Auditoría
-export const canViewReportes = () => {
-  return (
-    isAdmin() ||
-    isSupervisor() ||
-    isAuditor()
-  );
-};
-
-// CRUD movimientos inventario
-export const canManageMovimientos = () => {
+export const canManageProductoCarta = () => {
   return (
     isAdmin() ||
     isSupervisor() ||
@@ -85,12 +120,68 @@ export const canManageMovimientos = () => {
   );
 };
 
-// Solo lectura movimientos
-export const canViewMovimientos = () => {
+export const canViewProductoCarta = () => {
   return (
     isAdmin() ||
     isSupervisor() ||
     isEmpleado() ||
+    isCliente() ||
+    isAuditor()
+  );
+};
+
+export const canManageImagenesProducto = () => {
+  return (
+    isAdmin() ||
+    isSupervisor() ||
+    isEmpleado()
+  );
+};
+
+export const canViewImagenesProducto = () => {
+  return (
+    isAdmin() ||
+    isSupervisor() ||
+    isEmpleado() ||
+    isCliente() ||
+    isAuditor()
+  );
+};
+
+export const canManageUsuarioRoles = () => {
+  return isAdmin();
+};
+
+export const canViewUsuarioRoles = () => {
+  return isAdmin();
+};
+
+export const canManageRoles = () => {
+  return isAdmin();
+};
+
+export const canViewRoles = () => {
+  return isAdmin();
+};
+
+export const canManagePermisos = () => {
+  return isAdmin();
+};
+
+export const canViewPermisos = () => {
+  return (
+    isAdmin() ||
+    isAuditor()
+  );
+};
+
+export const canManageRolPermisos = () => {
+  return isAdmin();
+};
+
+export const canViewRolPermisos = () => {
+  return (
+    isAdmin() ||
     isAuditor()
   );
 };

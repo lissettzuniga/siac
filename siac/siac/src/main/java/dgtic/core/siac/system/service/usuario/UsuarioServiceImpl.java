@@ -158,6 +158,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             descripcion = "El usuario cambió su contraseña"
     )
     @Override
+    @Transactional
     public void changePassword(ChangePasswordRequestDTO request) {
 
         Usuario usuario = securityUtils.getUsuarioAutenticado();
@@ -170,13 +171,12 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new BusinessException("La nueva contraseña y la confirmación no coinciden");
         }
 
+        if (passwordEncoder.matches(request.getNuevaContrasena(), usuario.getContrasena())) {
+            throw new BusinessException("La nueva contraseña no puede ser igual a la actual");
+        }
+
         usuario.setContrasena(passwordEncoder.encode(request.getNuevaContrasena()));
 
-        if (passwordEncoder.matches(request.getNuevaContrasena(), usuario.getContrasena())) {
-            throw new BusinessException(
-                    "La nueva contraseña no puede ser igual a la actual"
-            );
-        }
         usuarioRepository.save(usuario);
     }
 

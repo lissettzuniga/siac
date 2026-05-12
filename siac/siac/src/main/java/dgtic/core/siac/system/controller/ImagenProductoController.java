@@ -61,8 +61,7 @@ public class ImagenProductoController {
 
     @PatchMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivate(
-            @PathVariable Long id,
-            @RequestParam Long usuarioId) {
+            @PathVariable Long id) {
 
         imagenProductoService.deactivate(id);
         return ResponseEntity.noContent().build();
@@ -70,8 +69,7 @@ public class ImagenProductoController {
 
     @PatchMapping("/{id}/activate")
     public ResponseEntity<Void> activate(
-            @PathVariable Long id,
-            @RequestParam Long usuarioId) {
+            @PathVariable Long id) {
 
         imagenProductoService.activate(id);
         return ResponseEntity.noContent().build();

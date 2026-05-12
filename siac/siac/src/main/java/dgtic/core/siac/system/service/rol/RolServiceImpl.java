@@ -70,7 +70,6 @@ public class RolServiceImpl implements RolService{
         return rolMapper.toResponseDTO(guardado);
     }
 
-
     @Auditable(
             entidad = EntidadEnum.ROL,
             accion = AccionEnum.ACTUALIZAR,

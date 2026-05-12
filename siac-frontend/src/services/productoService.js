@@ -5,28 +5,30 @@ const API_URL = "http://localhost:8080/api/productos";
 const getHeaders = () => {
   const token = getAccessToken();
 
-  return token
-    ? {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      }
-    : {
-        "Content-Type": "application/json",
-      };
+  return {
+    "Content-Type": "application/json",
+    ...(token && { Authorization: `Bearer ${token}` }),
+  };
 };
 
-export const obtenerProductos = async () => {
-  const response = await fetch(API_URL, {
-    method: "GET",
-    headers: getHeaders(),
-  });
+const manejarError = async (response) => {
+  let mensaje = `Error ${response.status}`;
 
-  if (!response.ok) {
-    throw new Error("Error al obtener productos");
+  try {
+    const error = await response.json();
+    mensaje = error.message || error.error || JSON.stringify(error);
+  } catch {
+    try {
+      mensaje = await response.text();
+    } catch {
+      mensaje = `Error ${response.status}`;
+    }
   }
 
-  return await response.json();
+  throw new Error(mensaje);
 };
+
+
 
 export const obtenerProductoPorId = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
@@ -35,7 +37,7 @@ export const obtenerProductoPorId = async (id) => {
   });
 
   if (!response.ok) {
-    throw new Error("Error al obtener el producto");
+    await manejarError(response);
   }
 
   return await response.json();
@@ -49,7 +51,7 @@ export const crearProducto = async (producto) => {
   });
 
   if (!response.ok) {
-    throw new Error("Error al crear producto");
+    await manejarError(response);
   }
 
   return await response.json();
@@ -63,19 +65,54 @@ export const actualizarProducto = async (id, producto) => {
   });
 
   if (!response.ok) {
-    throw new Error("Error al actualizar producto");
+    await manejarError(response);
   }
 
   return await response.json();
 };
 
 export const eliminarProductoPorId = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
+  const response = await fetch(`${API_URL}/${id}/deactivate`, {
+    method: "PATCH",
     headers: getHeaders(),
   });
 
   if (!response.ok) {
-    throw new Error("Error al eliminar producto");
+    await manejarError(response);
   }
+
+  return true;
+};
+export const obtenerProductos = async (page = 0, size = 8) => {
+  const response = await fetch(`${API_URL}?page=${page}&size=${size}`, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) await manejarError(response);
+
+  return await response.json();
+};
+
+export const obtenerProductosInactivos = async (page = 0, size = 8) => {
+  const response = await fetch(`${API_URL}/inactivos?page=${page}&size=${size}`, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) await manejarError(response);
+
+  return await response.json();
+};
+export const activarProductoPorId = async (id) => {
+  const response = await fetch(`${API_URL}/${id}/activate`, {
+    method: "PATCH",
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) {
+    await manejarError(response);
+  }
+
+  return true;
 };

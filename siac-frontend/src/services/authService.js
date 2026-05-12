@@ -36,6 +36,7 @@ export const getAccessToken = () => {
   return localStorage.getItem("accessToken");
 };
 
+
 export const getRol = () => {
   return localStorage.getItem("rol");
 };
