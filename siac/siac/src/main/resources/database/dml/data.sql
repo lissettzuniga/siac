@@ -230,4 +230,105 @@ INSERT INTO producto_carta (
 (2, 1, 'Fuego', 250, 200, 8, 1),      -- Charizard GX
 (5, 2, 'Oscuridad', 2500, 2100, 7, 1); -- Mago Oscuro
 
+-- =========================================================
+-- DATOS EXTRA PARA PRUEBAS Y FRONT
+-- =========================================================
+
+-- Más usuarios con roles existentes
+INSERT INTO usuario (
+    nombre, ap_paterno, ap_materno, correo_electronico,
+    contrasena, fecha_registro, fecha_desactivacion, activo
+) VALUES
+('Diana', 'Mendoza', 'Ruiz', 'diana.mendoza@siac.com',
+ '$2y$11$ujanc/zJZOaEPfEPRwuUHu/U4LhVMkk2ITW75//UMLodN9LU7aUwS',
+ '2026-03-06 09:00:00', NULL, 1),
+
+('Jorge', 'Castillo', 'Nava', 'jorge.castillo@siac.com',
+ '$2y$11$ujanc/zJZOaEPfEPRwuUHu/U4LhVMkk2ITW75//UMLodN9LU7aUwS',
+ '2026-03-06 10:00:00', NULL, 1),
+
+('Paola', 'Sanchez', 'Vega', 'paola.sanchez@siac.com',
+ '$2y$11$ujanc/zJZOaEPfEPRwuUHu/U4LhVMkk2ITW75//UMLodN9LU7aUwS',
+ '2026-03-06 11:00:00', NULL, 1);
+
+INSERT INTO usuario_rol (
+    id_usuario, id_rol, fecha_inicio, fecha_fin, activo
+) VALUES
+(6, 3, '2026-03-06 09:10:00', NULL, 1), -- Diana -> ROLE_EMPLEADO
+(7, 4, '2026-03-06 10:10:00', NULL, 1), -- Jorge -> ROLE_CLIENTE
+(8, 5, '2026-03-06 11:10:00', NULL, 1); -- Paola -> ROLE_AUDITOR
+
+
+-- Más productos
+INSERT INTO producto (
+    nombre, descripcion, precio, cantidad_actual,
+    id_categoria,
+    fecha_creacion, activo
+) VALUES
+('Eevee VMAX', 'Carta coleccionable Eevee VMAX', 320.00, 6, 1, '2026-03-08 10:00:00', 1),
+('Mewtwo EX', 'Carta coleccionable Mewtwo EX', 380.00, 4, 1, '2026-03-08 10:30:00', 1),
+('Blue-Eyes White Dragon', 'Carta Yu-Gi-Oh! Dragón Blanco de Ojos Azules', 520.00, 5, 1, '2026-03-08 11:00:00', 1),
+('Figura Naruto', 'Figura de colección Naruto Uzumaki', 699.00, 8, 2, '2026-03-08 11:30:00', 1),
+('Binder Coleccionador', 'Carpeta para almacenar cartas coleccionables', 280.00, 12, 3, '2026-03-08 12:00:00', 1),
+('Fundas Premium', 'Paquete de fundas premium para cartas', 95.00, 40, 3, '2026-03-08 12:30:00', 1),
+('Figura Vegeta', 'Figura de colección Vegeta', 749.00, 4, 2, '2026-03-08 13:00:00', 1),
+('Black Lotus', 'Carta Magic: The Gathering Black Lotus edición especial', 1500.00, 1, 1, '2026-03-08 13:30:00', 1);
+
+
+-- Más movimientos de inventario
+INSERT INTO movimiento_inventario (
+    id_producto, id_tipo_movimiento, cantidad, fecha,
+    id_usuario, comentario, activo
+) VALUES
+(6, 1, 6, '2026-03-08 10:05:00', 3, 'Ingreso inicial de Eevee VMAX', 1),
+(7, 1, 4, '2026-03-08 10:35:00', 6, 'Ingreso inicial de Mewtwo EX', 1),
+(8, 1, 5, '2026-03-08 11:05:00', 2, 'Ingreso inicial de Blue-Eyes White Dragon', 1),
+(9, 1, 8, '2026-03-08 11:35:00', 6, 'Ingreso inicial de Figura Naruto', 1),
+(10, 1, 12, '2026-03-08 12:05:00', 3, 'Ingreso inicial de Binder Coleccionador', 1),
+(11, 1, 40, '2026-03-08 12:35:00', 6, 'Ingreso inicial de Fundas Premium', 1),
+(12, 1, 4, '2026-03-08 13:05:00', 2, 'Ingreso inicial de Figura Vegeta', 1),
+(13, 1, 1, '2026-03-08 13:35:00', 1, 'Ingreso inicial de Black Lotus', 1),
+(10, 2, 2, '2026-03-09 09:20:00', 3, 'Venta de dos binders coleccionadores', 1),
+(11, 2, 5, '2026-03-09 09:40:00', 6, 'Venta de cinco paquetes de fundas premium', 1);
+
+
+-- Más imágenes
+INSERT INTO imagen_producto (
+    id_producto, ruta, nombre_archivo, fecha_registro, activo
+) VALUES
+(6, '/productos/eevee-vmax.jpg', 'eevee-vmax.jpg', '2026-03-08 10:10:00', 1),
+(7, '/productos/mewtwo-ex.jpg', 'mewtwo-ex.jpg', '2026-03-08 10:40:00', 1),
+(8, '/productos/blue-eyes-white-dragon.jpg', 'blue-eyes-white-dragon.jpg', '2026-03-08 11:10:00', 1),
+(9, '/productos/figura_naruto.jpg', 'figura_naruto.jpg', '2026-03-08 11:40:00', 1),
+(10, '/productos/binder-coleccionador.jpg', 'binder-coleccionador.jpg', '2026-03-08 12:10:00', 1),
+(11, '/productos/fundas-premium.jpg', 'fundas-premium.jpg', '2026-03-08 12:40:00', 1),
+(12, '/productos/figura-vegeta.jpg', 'figura-vegeta.jpg', '2026-03-08 13:10:00', 1),
+(13, '/productos/black-lotus.jpg', 'black-lotus.jpg', '2026-03-08 13:40:00', 1);
+
+
+
+
+-- Más productos carta
+INSERT INTO producto_carta (
+    id_producto, id_tipo_carta, atributo, ataque, defensa, nivel, activo
+) VALUES
+(6, 1, 'Normal', 180, 130, 5, 1),
+(7, 1, 'Psiquico', 220, 160, 7, 1),
+(8, 2, 'Luz', 3000, 2500, 8, 1),
+(13, 3, 'Artefacto', 0, 0, 1, 1);
+
+
+-- Más bitácora
+INSERT INTO bitacora_movimiento (
+    id_usuario, entidad, accion, descripcion, fecha
+) VALUES
+(1, 'USUARIO', 'CREAR', 'Alta del usuario Diana Mendoza Ruiz', '2026-03-06 09:00:00'),
+(1, 'USUARIO', 'CREAR', 'Alta del usuario Jorge Castillo Nava', '2026-03-06 10:00:00'),
+(1, 'USUARIO', 'CREAR', 'Alta del usuario Paola Sanchez Vega', '2026-03-06 11:00:00'),
+(3, 'PRODUCTO', 'CREAR', 'Alta del producto Eevee VMAX', '2026-03-08 10:00:00'),
+(6, 'PRODUCTO', 'CREAR', 'Alta del producto Mewtwo EX', '2026-03-08 10:30:00'),
+(2, 'PRODUCTO', 'CREAR', 'Alta del producto Blue-Eyes White Dragon', '2026-03-08 11:00:00'),
+(6, 'MOVIMIENTO_INVENTARIO', 'CREAR', 'Ingreso inicial de Fundas Premium', '2026-03-08 12:35:00'),
+(3, 'MOVIMIENTO_INVENTARIO', 'CREAR', 'Salida por venta de Binder Coleccionador', '2026-03-09 09:20:00');
+
 
