@@ -1,20 +1,65 @@
-# SIAC - Sistema de Inventario de Artículos Coleccionables
+# SIAC – Inventory Management System
 
-SIAC es un sistema web de gestión de inventario desarrollado para administrar artículos coleccionables como cartas Pokémon, accesorios, estructuras y sets.
+SIAC is a full-stack inventory management system designed to manage collectible items such as Pokémon cards, accessories, structures, and inventory movements.
 
-El sistema permite registrar, consultar, actualizar y controlar inventario mediante una arquitectura RESTful segura utilizando Spring Boot, Spring Security con JWT y React.
+The application was developed using Spring Boot, Spring Security, JWT Authentication, MariaDB, and React, following RESTful API principles and a layered architecture approach.
 
 ---
 
-# Tecnologías Utilizadas
+# Features
+
+## Authentication & Security
+- JWT Authentication
+- Access Token & Refresh Token
+- Stateless Authentication with Spring Security
+- Role-Based Authorization
+- Protected API Endpoints
+- BCrypt Password Encryption
+
+## Inventory Management
+- Product CRUD Operations
+- Category Management
+- Inventory Movement Control
+- Logical Activation / Deactivation
+- Stock Management
+
+## Administration
+- User Management
+- Role & Permission Management
+- User Role Assignment
+- Access Control System
+
+## Backend Architecture
+- Layered Architecture
+- DTO & Mapper Pattern
+- Global Exception Handling
+- Pageable Responses
+- Audit Logging System
+- Relational Database Modeling
+
+## OCR Intelligent Search
+- Product search using uploaded images
+- Text extraction with Tesseract OCR
+- Automatic product matching
+
+## Frontend
+- JWT Login Flow
+- Protected Routes
+- Dynamic Data Rendering
+- Pagination & Filters
+- Dashboard Interface
+
+---
+
+# Tech Stack
 
 ## Backend
 - Java 17
 - Spring Boot
 - Spring Security
-- JWT Authentication
 - Spring Data JPA
 - Hibernate
+- JWT Authentication
 - Maven
 - MariaDB
 
@@ -24,7 +69,7 @@ El sistema permite registrar, consultar, actualizar y controlar inventario media
 - JavaScript
 - CSS
 
-## Herramientas
+## Tools & Technologies
 - Git & GitHub
 - Postman
 - IntelliJ IDEA
@@ -32,95 +77,48 @@ El sistema permite registrar, consultar, actualizar y controlar inventario media
 
 ---
 
-# Arquitectura del Proyecto
+# System Architecture
 
-El proyecto sigue una arquitectura en capas:
+The project follows a layered architecture:
 
 ```text
 Controller → Service → Repository → Database
 ```
 
-También se implementa el uso de:
+Additional backend practices implemented:
 
 - DTOs
 - Mappers
-- Validaciones
-- Manejo global de excepciones
-- Paginación con Pageable
-- Auditoría de movimientos
+- Validations
+- Pageable Pagination
+- Global Exception Handling
+- Audit Logging
+- Role-Based Authorization
 
 ---
 
-# Funcionalidades Implementadas
+# System Roles
 
-## Seguridad
-- Autenticación con JWT
-- Access Token y Refresh Token
-- Spring Security Stateless
-- Roles y permisos
-- Protección de endpoints
-- BCryptPasswordEncoder
-
-## Gestión de Inventario
-- CRUD de productos
-- CRUD de categorías
-- Activación/desactivación lógica
-- Control de stock
-- Movimientos de inventario
-
-## Administración
-- Gestión de usuarios
-- Gestión de roles
-- Gestión de permisos
-- Asignación de roles a usuarios
-
-## Auditoría
-- Bitácora de movimientos
-- Registro de acciones:
-  - CREAR
-  - ACTUALIZAR
-  - ACTIVAR
-  - DESACTIVAR
-  - ELIMINAR
-
-## OCR
-- Búsqueda de productos mediante imágenes
-- Extracción de texto usando Tesseract OCR
-
-## Frontend
-- Login con JWT
-- Dashboard
-- Gestión visual de productos
-- Paginación
-- Filtros
-- Protección de rutas
-
----
-
-# Roles del Sistema
-
-| Rol | Descripción |
+| Role | Description |
 |---|---|
-| ADMIN | Control total del sistema |
-| SUPERVISOR | Gestión de inventario y movimientos |
-| EMPLEADO | Operaciones básicas |
-| CLIENTE | Consulta de productos |
-| AUDITOR | Consulta de bitácoras |
-
-```
+| ADMIN | Full system access |
+| SUPERVISOR | Inventory & movement management |
+| EMPLEADO | Basic inventory operations |
+| CLIENTE | Product visualization |
+| AUDITOR | Audit log consultation |
 
 ---
 
-# Endpoints Principales
+# Main API Endpoints
 
-## Autenticación
+## Authentication
 
 ```http
 POST /api/auth/login
 POST /api/auth/refresh
 ```
 
-## Productos
+## Products
 
 ```http
 GET /api/productos
@@ -130,7 +128,7 @@ PATCH /api/productos/{id}/activate
 PATCH /api/productos/{id}/deactivate
 ```
 
-## Categorías
+## Categories
 
 ```http
 GET /api/categorias
@@ -140,7 +138,7 @@ PATCH /api/categorias/{id}/activate
 PATCH /api/categorias/{id}/deactivate
 ```
 
-## Usuarios
+## Users
 
 ```http
 GET /api/usuarios
@@ -148,7 +146,7 @@ POST /api/usuarios
 PUT /api/usuarios/{id}
 ```
 
-## Bitácora
+## Audit Logs
 
 ```http
 GET /api/bitacora-movimientos
@@ -156,9 +154,9 @@ GET /api/bitacora-movimientos
 
 ---
 
-# Base de Datos
+# Database Design
 
-El sistema utiliza MariaDB con relaciones entre entidades como:
+The application uses MariaDB with relational modeling between entities such as:
 
 - Usuario
 - Rol
@@ -166,7 +164,7 @@ El sistema utiliza MariaDB con relaciones entre entidades como:
 - UsuarioRol
 - RolPermiso
 - Producto
-- Categoría
+- Categoria
 - MovimientoInventario
 - BitacoraMovimiento
 - ImagenProducto
@@ -176,9 +174,9 @@ El sistema utiliza MariaDB con relaciones entre entidades como:
 
 ---
 
-# Cómo Ejecutar el Proyecto
+# Run Locally
 
-## Clonar repositorio
+## Clone Repository
 
 ```bash
 git clone https://github.com/lissettzuniga/siac.git
@@ -186,14 +184,14 @@ git clone https://github.com/lissettzuniga/siac.git
 
 ---
 
-## Backend
+## Backend Setup
 
 ```bash
 cd siac
 mvn spring-boot:run
 ```
 
-El backend se ejecutará en:
+Backend runs on:
 
 ```text
 http://localhost:8080
@@ -201,7 +199,7 @@ http://localhost:8080
 
 ---
 
-## Frontend
+## Frontend Setup
 
 ```bash
 cd siac-frontend
@@ -209,7 +207,7 @@ npm install
 npm run dev
 ```
 
-El frontend se ejecutará en:
+Frontend runs on:
 
 ```text
 http://localhost:5173
@@ -217,15 +215,13 @@ http://localhost:5173
 
 ---
 
-# Seguridad JWT
+# JWT Authentication Flow
 
-Flujo de autenticación:
-
-1. El usuario inicia sesión
-2. Spring Security valida credenciales
-3. Se genera Access Token y Refresh Token
-4. React almacena los tokens
-5. Las peticiones protegidas utilizan:
+1. User logs into the application
+2. Spring Security validates credentials
+3. Access Token & Refresh Token are generated
+4. React stores authentication tokens
+5. Protected requests use:
 
 ```text
 Authorization: Bearer <token>
@@ -233,40 +229,56 @@ Authorization: Bearer <token>
 
 ---
 
-# OCR con Tesseract
+# OCR Intelligent Search
 
-El sistema incluye búsqueda inteligente de productos mediante OCR.
+The application integrates Tesseract OCR for intelligent product searching.
 
-## Proceso
+## OCR Flow
 
-1. El usuario sube una imagen
-2. Tesseract OCR extrae texto
-3. El sistema busca coincidencias en productos registrados
-
----
+1. User uploads an image
+2. Tesseract extracts text from the image
+3. The system searches matching registered products
 
 ---
 
-# Futuras Mejoras
+# Future Improvements
 
-- Recuperación de contraseña mediante correo electrónico
-- Reportes en PDF y Excel
-- Dashboard avanzado con gráficas
-- Notificaciones automáticas
-- Despliegue en la nube
-
----
-
-# Autor
-
-**Lissett Zuñiga Reyes**  
-Ingeniería en Computación – UNAM  
-
-Apasionada por el desarrollo de software, estructuras de datos y sistemas de bases de datos.
+- Password recovery via email
+- PDF & Excel report generation
+- Advanced analytics dashboard
+- Cloud deployment
+- Notification system
+- Docker containerization
+- Unit & integration testing
 
 ---
 
-# Licencia
+# Screenshots
 
-Proyecto desarrollado con fines académicos y de aprendizaje.
+> Add screenshots here:
+- Login Page
+- Dashboard
+- Product Management
+- OCR Search
+- Inventory Movements
+- Audit Logs
+
+---
+
+# Author
+
+## Lissett Zuñiga Reyes
+
+Computer Engineering – UNAM
+
+Passionate about backend development, databases, software architecture, and scalable applications.
+
+- GitHub: https://github.com/lissettzuniga
+- LinkedIn: https://linkedin.com/in/lissett-zuniga-reyes
+
+---
+
+# License
+
+Project developed for academic and learning purposes.
 
